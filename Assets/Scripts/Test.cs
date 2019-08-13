@@ -1,43 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Test : MonoBehaviour
 {
-
+    public Text text;
+    public Text text1;
+    private void Awake()
+    {
+        text .text= System.DateTime.Now.ToString(FieldConst.TIME_FORMAT);
+        Init();
+        text1.text = System.DateTime.Now.ToString(FieldConst.TIME_FORMAT);
+    }
     void Start()
     {
-
-        //各平台下数据库存储的绝对路径(通用)
-        //PC：sql = new SQLiteHelper("data source=" + Application.dataPath + "/sqlite4unity.db");
-        //Mac：sql = new SQLiteHelper("data source=" + Application.dataPath + "/sqlite4unity.db");
-        //Android：sql = new SQLiteHelper("URI=file:" + Application.persistentDataPath + "/sqlite4unity.db");
-        //iOS：sql = new SQLiteHelper("data source=" + Application.persistentDataPath + "/sqlite4unity.db");
-
-
-        //PC平台下的相对路径
-        //sql = new SQLiteHelper("data source="sqlite4unity.db");
-        //编辑器：Assets/sqlite4unity.db
-        //编译后：和AppName.exe同级的目录下，这里比较奇葩
-        //当然可以用更随意的方式sql = new SQLiteHelper("data source="D://SQLite//sqlite4unity.db");
-        //确保路径存在即可否则会发生错误
-
-        //如果是事先创建了一份数据库
-        //可以将这个数据库放置在StreamingAssets目录下然后再拷贝到
-        //Application.persistentDataPath + "/sqlite4unity.db"路径即可
-
-
-        //创建数据库名称为xuanyusong.db
-        DbAccess db = new DbAccess("data source=xuanyusong.db");
-        //创建数据库表，与字段
-        db.CreateTable("momo", new string[] { "name", "qq", "email", "blog" }, new string[] { "text", "text", "text", "text" });
-        //关闭对象
-        //db.CloseSqlConnection();
-
 
         //创建数据库名称为xuanyusong.db
         //DbAccess db = new DbAccess("data source=xuanyusong.db");
         //请注意 插入字符串是 已经要加上'宣雨松' 不然会报错
-        db.InsertInto("momo", new string[] { "'宣雨松'", "'289187120'", "'xuanyusong@gmail.com'", "'www.xuanyusong.com'" });
+        //db.InsertInto("momo", new string[] { "'宣雨松'", "'289187120'", "'xuanyusong@gmail.comqqqqqq'", "'www.xuanyusong.comq'" });
+        //db1.InsertInto("momo", new string[] { "'宣雨松1'", "'2891871qqq20'", "'xuanyusong@gmail.com111'", "'www.xuanyusong.com'" });
         //db.CloseSqlConnection();
 
 
@@ -45,9 +27,11 @@ public class Test : MonoBehaviour
         //创建数据库名称为xuanyusong.db
         // DbAccess db = new DbAccess("data source=xuanyusong.db");
 
-        db.UpdateInto("momo", new string[] { "name", "qq" }, new string[] { "'xuanyusong'", "'11111111'" }, "email", "'xuanyusong@gmail.com'");
+        //db.UpdateInto("momo", new string[] { "name", "qq" }, new string[] { "'xuanyusong'", "'11111111'" }, "email", "'xuanyusong@gmail.comqqqqqq'");
+        //db1.UpdateInto("momo", new string[] { "name", "qq" }, new string[] { "'xuanyusong1'", "'22qqq222'" }, "email", "'xuanyusong@gmail.com111'");
 
-        db.CloseSqlConnection();
+        //db.CloseSqlConnection();
+        //db1.CloseSqlConnection();
 
 
         /*
@@ -161,7 +145,36 @@ public class Test : MonoBehaviour
                 }
 
                 db.CloseSqlConnection();*/
+        InsertTest();
+    }
 
+    void Init() {
+        DbAccess db = new DbAccess();
+        db.DelteAllTables();
+        db.CreateAllTables();
+        db.CloseSqlConnection();
+    }
+    void InsertTest() {
+        DbAccess db = new DbAccess();
+        db.InsertIntoSpecific(FieldConst.FRIEND, new string[] { FieldConst.FRIEND_ID,  FieldConst.FRIEND_LEVEL, FieldConst.RECOVERY_TIME, FieldConst.BECOME_FRIEND_TIME }, new string[] { "1", "'1'", "'哈哈哈'", "'倒萨'" });
+        db.InsertIntoSpecific(FieldConst.FRIEND, new string[] { FieldConst.FRIEND_ID, FieldConst.FRIEND_NAME, FieldConst.FRIEND_LEVEL, FieldConst.BECOME_FRIEND_TIME }, new string[] { "1", "'b'", "'2'", "'哈哈哈2'" });
+        db.InsertIntoSpecific(FieldConst.FRIEND, new string[]{  FieldConst.FRIEND_NAME, FieldConst.FRIEND_LEVEL, FieldConst.RECOVERY_TIME, FieldConst.BECOME_FRIEND_TIME }, new string[]{"'b'","'3'","'倒萨3'", "'哈哈哈3'" });
+        db.InsertIntoSpecific(FieldConst.FRIEND, new string[]{  FieldConst.FRIEND_ID, FieldConst.FRIEND_LEVEL, FieldConst.RECOVERY_TIME, FieldConst.BECOME_FRIEND_TIME }, new string[]{"'2'","'3'","'倒萨3'", "'哈哈哈3'" });
+
+        db.InsertIntoSpecific(FieldConst.FRIEND, new string[]{ FieldConst.FRIEND_ID, FieldConst.FRIEND_NAME, FieldConst.FRIEND_LEVEL, FieldConst.RECOVERY_TIME }, new string[]{"2","'b'","'4'","'哈哈哈4'" });//2条合成一条 ，所以务必在第一次插入FRIEND_ID和FRIEND_NAME绑定
+
+        db.InsertIntoSpecific(FieldConst.FRIEND, new string[] {FieldConst.FRIEND_LEVEL, FieldConst.RECOVERY_TIME, FieldConst.BECOME_FRIEND_TIME }, new string[] {  "'5'", "'哈哈哈5'", "'倒萨5'" });
+        db.CloseSqlConnection();
+    }
+    void InsertTest2()
+    {
+        DbAccess db = new DbAccess();
+        db.InsertInto(FieldConst.FRIEND, new string[] { "1", "'a'", "'1'", "'哈哈哈'", "'倒萨'" });
+        db.InsertInto(FieldConst.FRIEND, new string[] { "1", "'b'", "'2'", "'哈哈哈2'", "'倒萨2'" });
+        db.InsertInto(FieldConst.FRIEND, new string[] { "1", "'b'", "'3'", "'哈哈哈3'", "'倒萨3'" });
+        db.InsertInto(FieldConst.FRIEND, new string[] { "2", "'b'", "'4'", "'哈哈哈4'", "'倒萨4'" });
+        db.InsertInto(FieldConst.FRIEND, new string[] { "3", "'a'", "'5'", "'哈哈哈5'", "'倒萨5'" });
+        db.CloseSqlConnection();
     }
 
 }
