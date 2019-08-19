@@ -13,7 +13,8 @@ public class DbAccess
     //iOS：sql = new SQLiteHelper("data source=" + Application.persistentDataPath + "/sqlite4unity.db");
     //注意如果插入字符串 需要 ' ' 包围起来  ，不包围默认为数字，会转换错误
 #if UNITY_EDITOR
-    private string pathPrefix = "data source=" + Application.dataPath + "/";
+    //private string pathPrefix = "data source=" + Application.dataPath + "/";
+    private string pathPrefix = "data source=";
 #elif UNITY_IOS
         private string pathPrefix = "data source=" + Application.persistentDataPath + "/";
 #elif UNITY_ANDROID
@@ -32,7 +33,7 @@ public class DbAccess
 
     private SqliteDataReader reader;
     private bool isConnected;
-    public DbAccess(string dbName="aliya.db")
+    public DbAccess(string dbName="TEST.db")
 
     {
         isConnected = false;
@@ -43,7 +44,7 @@ public class DbAccess
         isclosed = true;
     }
     */
-    public void OpenDB(string dbName = "aliya.db")
+    public void OpenDB(string dbName = "TEST.db")
 
     {
         if (isConnected)
@@ -133,7 +134,7 @@ public class DbAccess
 
     {
 
-        string query = "INSERT OR REPLACE INTO " + tableName + " VALUES (" + values[0]; //存在则更新
+        string query = "REPLACE INTO " + tableName + " VALUES (" + values[0]; //存在则更新
        // string query = "INSERT INTO " + tableName + " VALUES (" + values[0];//插入新数据
 
         for (int i = 1; i < values.Length; ++i)
@@ -189,7 +190,8 @@ public class DbAccess
         Debug.Log(query);
         return ExecuteQuery(query);
     }
-    public SqliteDataReader InsertIntoSpecific(string tableName, string[] cols, string[] values)
+
+    public SqliteDataReader InsertIntoSpecific(string tableName, string[] cols, string[] values,string mainKey)
 
     {
 
@@ -200,7 +202,7 @@ public class DbAccess
 
         }
 
-        string query = "INSERT OR REPLACE INTO " + tableName + "(" + cols[0];
+        string query = "INSERT INTO " + tableName + "(" + cols[0];
 
         for (int i = 1; i < cols.Length; ++i)
         {
@@ -218,7 +220,12 @@ public class DbAccess
 
         }
 
-        query += ")";
+        query += ") ON CONFLICT("+ mainKey + ") DO UPDATE SET ";
+        for (int i = 1; i < cols.Length-1; ++i)
+        {
+            query += cols[i]+"=" + values[i]+",";
+        }
+        query += cols[cols.Length - 1] + "=" + values[cols.Length - 1];
         Debug.Log(query);
         return ExecuteQuery(query);
 

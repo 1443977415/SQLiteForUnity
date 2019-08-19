@@ -156,14 +156,14 @@ public class Test : MonoBehaviour
     }
     void InsertTest() {
         DbAccess db = new DbAccess();
-        db.InsertIntoSpecific(FieldConst.FRIEND, new string[] { FieldConst.FRIEND_ID,  FieldConst.FRIEND_LEVEL, FieldConst.RECOVERY_TIME, FieldConst.BECOME_FRIEND_TIME }, new string[] { "1", "'1'", "'哈哈哈'", "'倒萨'" });
-        db.InsertIntoSpecific(FieldConst.FRIEND, new string[] { FieldConst.FRIEND_ID, FieldConst.FRIEND_NAME, FieldConst.FRIEND_LEVEL, FieldConst.BECOME_FRIEND_TIME }, new string[] { "1", "'b'", "'2'", "'哈哈哈2'" });
-        db.InsertIntoSpecific(FieldConst.FRIEND, new string[]{  FieldConst.FRIEND_NAME, FieldConst.FRIEND_LEVEL, FieldConst.RECOVERY_TIME, FieldConst.BECOME_FRIEND_TIME }, new string[]{"'b'","'3'","'倒萨3'", "'哈哈哈3'" });
-        db.InsertIntoSpecific(FieldConst.FRIEND, new string[]{  FieldConst.FRIEND_ID, FieldConst.FRIEND_LEVEL, FieldConst.RECOVERY_TIME, FieldConst.BECOME_FRIEND_TIME }, new string[]{"'2'","'3'","'倒萨3'", "'哈哈哈3'" });
+        db.InsertIntoSpecific(FieldConst.FRIEND, new string[] { FieldConst.FRIEND_ID,  FieldConst.FRIEND_LEVEL, FieldConst.RECOVERY_TIME, FieldConst.BECOME_FRIEND_TIME }, new string[] { "1", "'1'", "'哈哈哈'", "'倒萨'" }, FieldConst.FRIEND_ID);
+        db.InsertIntoSpecific(FieldConst.FRIEND, new string[] { FieldConst.FRIEND_ID, FieldConst.FRIEND_NAME, FieldConst.FRIEND_LEVEL, FieldConst.BECOME_FRIEND_TIME }, new string[] { "1", "'b'", "'2'", "'哈哈哈2'" }, FieldConst.FRIEND_ID);
+        db.InsertIntoSpecific(FieldConst.FRIEND, new string[]{  FieldConst.FRIEND_NAME, FieldConst.FRIEND_LEVEL, FieldConst.RECOVERY_TIME, FieldConst.BECOME_FRIEND_TIME }, new string[]{"'b'","'3'","'倒萨3'", "'哈哈哈3'" }, FieldConst.FRIEND_NAME);
+        db.InsertIntoSpecific(FieldConst.FRIEND, new string[]{  FieldConst.FRIEND_ID, FieldConst.FRIEND_LEVEL, FieldConst.RECOVERY_TIME, FieldConst.BECOME_FRIEND_TIME }, new string[]{"'2'","'3'","'倒萨3'", "'哈哈哈3'" }, FieldConst.FRIEND_ID);
 
-        db.InsertIntoSpecific(FieldConst.FRIEND, new string[]{ FieldConst.FRIEND_ID, FieldConst.FRIEND_NAME, FieldConst.FRIEND_LEVEL, FieldConst.RECOVERY_TIME }, new string[]{"2","'b'","'4'","'哈哈哈4'" });//2条合成一条 ，所以务必在第一次插入FRIEND_ID和FRIEND_NAME绑定
+        db.InsertIntoSpecific(FieldConst.FRIEND, new string[]{ FieldConst.FRIEND_ID, FieldConst.FRIEND_NAME, FieldConst.FRIEND_LEVEL, FieldConst.RECOVERY_TIME }, new string[]{"2","'b'","'4'","'哈哈哈4'" }, FieldConst.FRIEND_ID);//禁用   自己看
 
-        db.InsertIntoSpecific(FieldConst.FRIEND, new string[] {FieldConst.FRIEND_LEVEL, FieldConst.RECOVERY_TIME, FieldConst.BECOME_FRIEND_TIME }, new string[] {  "'5'", "'哈哈哈5'", "'倒萨5'" });
+        //db.InsertIntoSpecific(FieldConst.FRIEND, new string[] { FieldConst.FRIEND_ID+","+ FieldConst.FRIEND_NAME, FieldConst.FRIEND_LEVEL, FieldConst.RECOVERY_TIME, FieldConst.BECOME_FRIEND_TIME }, new string[] {  "1,'10'","'5'", "'哈哈哈5'", "'倒萨5'" });
         db.CloseSqlConnection();
     }
     void InsertTest2()
